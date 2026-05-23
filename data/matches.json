@@ -1,0 +1,68 @@
+[
+  {
+    "id": "match-001",
+    "date": "2025-01-14",
+    "player1": "Arash",
+    "player2": "Leila",
+    "score1": 7,
+    "score2": 3,
+    "winner": "Arash",
+    "notes": "Opening match of the winter series",
+    "hash": "f85b1f0683c462caad8027c13668e25a942c06b1b89a760a6c58251f64922183"
+  },
+  {
+    "id": "match-002",
+    "date": "2025-01-21",
+    "player1": "Cyrus",
+    "player2": "Mina",
+    "score1": 5,
+    "score2": 7,
+    "winner": "Mina",
+    "notes": "",
+    "hash": "08c1d7a21e1dccf84bb33aee9280afc8cc54ba191d423ffc97d6e606417d13bc"
+  },
+  {
+    "id": "match-003",
+    "date": "2025-02-04",
+    "player1": "Leila",
+    "player2": "Cyrus",
+    "score1": 7,
+    "score2": 6,
+    "winner": "Leila",
+    "notes": "Dramatic finale — Cyrus hit the bar on the last roll",
+    "hash": "a0fafefb4733da61f55fd8e00931c63af5fa09807aaee5cd763dca161795476d"
+  },
+  {
+    "id": "match-004",
+    "date": "2025-02-18",
+    "player1": "Arash",
+    "player2": "Mina",
+    "score1": 4,
+    "score2": 7,
+    "winner": "Mina",
+    "notes": "Mina doubled aggressively in game 3",
+    "hash": "89ff3eb20ebe17ef6950659cc5675613675fa6c779c7c023e85269a82331a3e3"
+  },
+  {
+    "id": "match-005",
+    "date": "2025-03-05",
+    "player1": "Cyrus",
+    "player2": "Arash",
+    "score1": 7,
+    "score2": 5,
+    "winner": "Cyrus",
+    "notes": "First win for Cyrus against Arash",
+    "hash": "52004f40652d2ca0c6c92588698980ff8cd227b1ce1a70bd5b40cfdf97dc3f2c"
+  },
+  {
+    "id": "match-006",
+    "date": "2025-03-19",
+    "player1": "Mina",
+    "player2": "Leila",
+    "score1": 6,
+    "score2": 7,
+    "winner": "Leila",
+    "notes": "Spring series finale",
+    "hash": "122c7f5925e0a1c3b9ecd2b5141f146717814d8b0c66d45bbb8e6c1fdb1b1650"
+  }
+]
