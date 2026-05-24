@@ -1,16 +1,5 @@
 [
   {
-    "id": "match-001",
-    "date": "2025-01-14",
-    "player1": "Arash",
-    "player2": "Leila",
-    "score1": 7,
-    "score2": 3,
-    "winner": "Arash",
-    "notes": "Opening match of the winter series",
-    "hash": "f85b1f0683c462caad8027c13668e25a942c06b1b89a760a6c58251f64922183"
-  },
-  {
     "id": "match-002",
     "date": "2026-05-24",
     "notes": "",
