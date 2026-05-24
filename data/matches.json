@@ -29,7 +29,7 @@
     "score1": 7,
     "score2": 6,
     "winner": "Leila",
-    "notes": "Dramatic finale — Cyrus hit the bar on the last roll",
+    "notes": "Dramatic finale â Cyrus hit the bar on the last roll",
     "hash": "a0fafefb4733da61f55fd8e00931c63af5fa09807aaee5cd763dca161795476d"
   },
   {
@@ -64,5 +64,16 @@
     "winner": "Leila",
     "notes": "Spring series finale",
     "hash": "122c7f5925e0a1c3b9ecd2b5141f146717814d8b0c66d45bbb8e6c1fdb1b1650"
+  },
+  {
+    "id": "match-007",
+    "date": "2026-05-24",
+    "notes": "heheh",
+    "player1": "Mooo",
+    "player2": "Veee",
+    "score1": 5,
+    "score2": 6,
+    "winner": "Veee",
+    "hash": "dd3073d582294821fbe794c94f0a2e5f27d8c66d0edf8f6d8361129b5452d442"
   }
 ]
