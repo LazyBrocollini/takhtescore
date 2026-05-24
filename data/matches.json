@@ -9,6 +9,16 @@
     "winner": "Arash",
     "notes": "Opening match of the winter series",
     "hash": "f85b1f0683c462caad8027c13668e25a942c06b1b89a760a6c58251f64922183"
+  },
+  {
+    "id": "match-002",
+    "date": "2026-05-24",
+    "notes": "",
+    "player1": "Moe",
+    "player2": "Ve",
+    "score1": 0,
+    "score2": 0,
+    "winner": "Moe",
+    "hash": "2636eb2ef86212342cb0056ff4f456ff7404aa971c5106a76fbcda7464d5ae37"
   }
 ]
-
