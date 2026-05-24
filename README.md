@@ -8,11 +8,3 @@ Takhtescore is a static website that tracks backgammon match results between pla
 ### Verifying manually
 
 The **Verify** section on the site lets you paste any JSON record and check its hash in real time, entirely in your browser.
-
-You can also verify from the command line using `openssl` or any SHA-256 tool:
-
-```bash
-# 1. Print the canonical string (node outputs it when you run the hash script)
-echo -n '{"date":"2025-01-14",...}' | shasum -a 256
-```
-
