@@ -1,0 +1,987 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Takhtescore — Admin</title>
+  <meta name="robots" content="noindex, nofollow" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Zilla+Slab:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
+
+  <style>
+    /* ── Variables (matches main site) ─────────────────────── */
+    :root {
+      --parchment:    #f5edd6;
+      --parchment-dk: #ede0bb;
+      --walnut:       #2b1d0e;
+      --walnut-md:    #4a2e14;
+      --walnut-lt:    #7a4f2a;
+      --burgundy:     #7b1c2e;
+      --burgundy-lt:  #a3263d;
+      --cream:        #fdf6e3;
+      --cream-dk:     #f0e6c8;
+      --ink:          #1a0f05;
+      --gold:         #c8922a;
+      --gold-lt:      #e0b050;
+      --rule:         rgba(43,29,14,0.18);
+      --shadow:       rgba(43,29,14,0.15);
+      --green:        #2e7d32;
+      --green-bg:     #e8f5e9;
+      --green-border: #a5d6a7;
+      --red:          #c62828;
+      --red-bg:       #ffebee;
+      --red-border:   #ef9a9a;
+      --amber-bg:     #fff8e1;
+      --amber-border: #ffe082;
+      --amber:        #7a5800;
+
+      --font-display: 'Playfair Display', Georgia, serif;
+      --font-body:    'Zilla Slab', 'Palatino Linotype', serif;
+      --font-mono:    'IBM Plex Mono', 'Courier New', monospace;
+      --radius:       4px;
+      --radius-lg:    8px;
+      --max-w:        720px;
+    }
+
+    /* ── Reset ──────────────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      background-color: var(--parchment);
+      background-image: repeating-linear-gradient(
+        0deg, transparent, transparent 31px,
+        rgba(43,29,14,0.1) 31px, rgba(43,29,14,0.1) 32px
+      );
+      color: var(--ink);
+      font-family: var(--font-body);
+      font-size: 15px;
+      line-height: 1.65;
+      min-height: 100vh;
+    }
+
+    /* ── Header ─────────────────────────────────────────────── */
+    #admin-header {
+      background: var(--walnut);
+      padding: 1.4rem 0;
+      position: relative;
+      overflow: hidden;
+    }
+    #admin-header::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: repeating-linear-gradient(-45deg, transparent, transparent 20px,
+        rgba(255,255,255,0.02) 20px, rgba(255,255,255,0.02) 21px);
+      pointer-events: none;
+    }
+    .header-inner {
+      max-width: var(--max-w);
+      margin: 0 auto;
+      padding: 0 1.25rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      position: relative;
+    }
+    .header-left { display: flex; align-items: center; gap: 1rem; }
+    .admin-badge {
+      font-family: var(--font-mono);
+      font-size: 0.65rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      background: var(--burgundy);
+      color: #ffcdd2;
+      padding: 3px 10px;
+      border-radius: 2px;
+      border: 1px solid rgba(255,100,100,0.3);
+    }
+    .site-name {
+      font-family: var(--font-display);
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--gold-lt);
+    }
+    .site-name span { color: #fdf6e3; font-style: italic; }
+    .back-link {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      letter-spacing: 0.08em;
+      color: var(--parchment-dk);
+      text-decoration: none;
+      opacity: 0.65;
+      transition: opacity 0.15s;
+    }
+    .back-link:hover { opacity: 1; }
+
+    /* ── Layout ─────────────────────────────────────────────── */
+    .container {
+      max-width: var(--max-w);
+      margin: 0 auto;
+      padding: 0 1.25rem;
+    }
+    section { margin: 2rem 0; }
+
+    /* ── Section header ─────────────────────────────────────── */
+    .section-header {
+      display: flex; align-items: baseline; gap: 0.75rem;
+      margin-bottom: 1.1rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 2px solid var(--walnut);
+      position: relative;
+    }
+    .section-header::after {
+      content: ''; position: absolute; bottom: -5px; left: 0; right: 0;
+      height: 1px; background: var(--gold); opacity: 0.45;
+    }
+    .section-label {
+      font-family: var(--font-mono); font-size: 0.65rem;
+      letter-spacing: 0.12em; text-transform: uppercase;
+      color: var(--gold); background: var(--walnut);
+      padding: 2px 8px; border-radius: var(--radius); flex-shrink: 0;
+    }
+    h2 {
+      font-family: var(--font-display);
+      font-size: 1.35rem; font-weight: 700;
+      color: var(--walnut);
+    }
+
+    /* ── Card ───────────────────────────────────────────────── */
+    .card {
+      background: var(--cream);
+      border: 1px solid var(--rule);
+      border-radius: var(--radius-lg);
+      padding: 1.35rem 1.5rem;
+      box-shadow: 0 2px 12px var(--shadow);
+    }
+
+    /* ── Token section ──────────────────────────────────────── */
+    .token-status {
+      display: flex; align-items: center; gap: 0.6rem;
+      margin-bottom: 1rem;
+    }
+    .status-dot {
+      width: 9px; height: 9px; border-radius: 50%;
+      flex-shrink: 0; transition: background 0.2s;
+    }
+    .status-dot.connected { background: #43a047; box-shadow: 0 0 0 3px rgba(67,160,71,0.2); }
+    .status-dot.disconnected { background: #e53935; box-shadow: 0 0 0 3px rgba(229,57,53,0.2); }
+    .status-dot.checking { background: var(--gold); box-shadow: 0 0 0 3px rgba(200,146,42,0.2); animation: pulse 1s infinite; }
+    @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.4} }
+
+    .status-text {
+      font-family: var(--font-mono); font-size: 0.78rem;
+      color: var(--walnut-lt);
+    }
+
+    .token-row {
+      display: flex; gap: 0.6rem; align-items: stretch; flex-wrap: wrap;
+    }
+    .token-input-wrap { flex: 1; min-width: 220px; position: relative; }
+
+    /* ── Form inputs ────────────────────────────────────────── */
+    input, select, textarea {
+      width: 100%;
+      font-family: var(--font-body);
+      font-size: 0.92rem;
+      background: var(--parchment);
+      border: 1px solid var(--rule);
+      border-radius: var(--radius);
+      padding: 0.55rem 0.85rem;
+      color: var(--walnut);
+      outline: none;
+      transition: border-color 0.15s, background 0.15s;
+      appearance: none;
+    }
+    input:focus, select:focus, textarea:focus {
+      border-color: var(--walnut-lt);
+      background: var(--cream);
+    }
+    input[type="password"] { font-family: var(--font-mono); letter-spacing: 0.1em; }
+    input.masked { -webkit-text-security: disc; }
+
+    label {
+      display: block;
+      font-family: var(--font-mono);
+      font-size: 0.68rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--walnut-lt);
+      margin-bottom: 0.35rem;
+    }
+
+    .field { margin-bottom: 1rem; }
+    .field:last-child { margin-bottom: 0; }
+
+    .field-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+    }
+    @media (max-width: 500px) { .field-row { grid-template-columns: 1fr; } }
+
+    .field-hint {
+      font-size: 0.76rem;
+      color: var(--walnut-lt);
+      margin-top: 0.3rem;
+      font-style: italic;
+    }
+
+    /* ── Score input ────────────────────────────────────────── */
+    .score-row {
+      display: flex; align-items: center; gap: 0.75rem;
+    }
+    .score-row input[type="number"] {
+      width: 80px; text-align: center;
+      font-family: var(--font-mono); font-size: 1.1rem; font-weight: 500;
+    }
+    .score-vs {
+      font-family: var(--font-display);
+      font-style: italic; font-size: 1rem;
+      color: var(--walnut-lt); flex-shrink: 0;
+    }
+
+    /* ── Buttons ────────────────────────────────────────────── */
+    .btn {
+      font-family: var(--font-mono); font-size: 0.75rem;
+      letter-spacing: 0.09em; text-transform: uppercase;
+      cursor: pointer; padding: 0.55rem 1.2rem;
+      border-radius: var(--radius); border: none;
+      transition: all 0.15s; white-space: nowrap;
+    }
+    .btn-primary {
+      background: var(--walnut); color: var(--gold-lt);
+      border: 1px solid var(--walnut);
+    }
+    .btn-primary:hover:not(:disabled) { background: var(--walnut-md); }
+    .btn-primary:disabled { opacity: 0.45; cursor: not-allowed; }
+    .btn-ghost {
+      background: transparent; color: var(--walnut-lt);
+      border: 1px solid var(--rule);
+    }
+    .btn-ghost:hover { border-color: var(--walnut-lt); color: var(--walnut); }
+    .btn-danger {
+      background: transparent; color: var(--red);
+      border: 1px solid var(--red-border);
+      font-size: 0.68rem;
+    }
+    .btn-danger:hover { background: var(--red-bg); }
+
+    /* ── Hash preview ───────────────────────────────────────── */
+    #hash-preview {
+      margin-top: 1rem;
+      padding: 0.85rem 1rem;
+      background: var(--parchment-dk);
+      border: 1px solid var(--rule);
+      border-radius: var(--radius);
+      display: none;
+    }
+    #hash-preview.show { display: block; }
+    .hash-preview-label {
+      font-family: var(--font-mono); font-size: 0.65rem;
+      letter-spacing: 0.1em; text-transform: uppercase;
+      color: var(--walnut-lt); margin-bottom: 0.3rem;
+    }
+    .hash-preview-value {
+      font-family: var(--font-mono); font-size: 0.76rem;
+      color: var(--walnut); word-break: break-all;
+    }
+    .hash-canonical {
+      font-family: var(--font-mono); font-size: 0.7rem;
+      color: var(--walnut-lt); word-break: break-all;
+      margin-top: 0.4rem; opacity: 0.75;
+    }
+
+    /* ── Submit area ────────────────────────────────────────── */
+    .submit-area {
+      display: flex; gap: 0.75rem; align-items: center;
+      margin-top: 1.25rem; flex-wrap: wrap;
+    }
+
+    /* ── Alerts ─────────────────────────────────────────────── */
+    .alert {
+      padding: 0.85rem 1rem; border-radius: var(--radius);
+      font-size: 0.85rem; margin-top: 1rem;
+      display: none; animation: fadeIn 0.2s ease;
+    }
+    .alert.show { display: block; }
+    .alert.success { background: var(--green-bg); border: 1px solid var(--green-border); color: var(--green); }
+    .alert.error   { background: var(--red-bg);   border: 1px solid var(--red-border);   color: var(--red); }
+    .alert.warning { background: var(--amber-bg);  border: 1px solid var(--amber-border); color: var(--amber); }
+    .alert-title { font-weight: 600; margin-bottom: 0.25rem; }
+    .alert-mono { font-family: var(--font-mono); font-size: 0.75rem; margin-top: 0.4rem; word-break: break-all; opacity: 0.85; }
+
+    @keyframes fadeIn { from{opacity:0;transform:translateY(3px)} to{opacity:1;transform:translateY(0)} }
+
+    /* ── Security notice ────────────────────────────────────── */
+    .security-list {
+      list-style: none; display: flex; flex-direction: column; gap: 0.5rem;
+    }
+    .security-list li {
+      display: flex; gap: 0.6rem; align-items: flex-start;
+      font-size: 0.86rem; color: var(--walnut-md);
+    }
+    .security-list li::before {
+      content: '→'; color: var(--gold); font-family: var(--font-mono);
+      flex-shrink: 0; margin-top: 1px;
+    }
+    .security-list strong { color: var(--walnut); }
+
+    /* ── Repo config ────────────────────────────────────────── */
+    .config-row {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem;
+    }
+    @media (max-width: 500px) { .config-row { grid-template-columns: 1fr; } }
+
+    /* ── Recent matches ─────────────────────────────────────── */
+    #recent-matches { display: flex; flex-direction: column; gap: 0.6rem; }
+    .recent-match {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0.65rem 0.85rem;
+      background: var(--parchment);
+      border: 1px solid var(--rule);
+      border-radius: var(--radius);
+      gap: 1rem; flex-wrap: wrap;
+    }
+    .recent-match-players {
+      font-family: var(--font-display); font-size: 0.95rem; font-weight: 600;
+      color: var(--walnut);
+    }
+    .recent-match-meta {
+      font-family: var(--font-mono); font-size: 0.72rem; color: var(--walnut-lt);
+    }
+
+    /* ── Footer ─────────────────────────────────────────────── */
+    #admin-footer {
+      background: var(--walnut); color: var(--parchment-dk);
+      text-align: center; padding: 1.2rem 1rem; margin-top: 3rem;
+    }
+    .footer-text {
+      font-family: var(--font-mono); font-size: 0.68rem;
+      letter-spacing: 0.1em; text-transform: uppercase; opacity: 0.6;
+    }
+
+    /* ── Spinner ────────────────────────────────────────────── */
+    .spinner {
+      display: inline-block; width: 12px; height: 12px;
+      border: 2px solid rgba(224,176,80,0.3);
+      border-top-color: var(--gold-lt);
+      border-radius: 50%; animation: spin 0.7s linear infinite;
+      vertical-align: middle; margin-right: 6px;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* ── sr-only ────────────────────────────────────────────── */
+    .sr-only { position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0 }
+  </style>
+</head>
+<body>
+
+<!-- ── Header ──────────────────────────────────────────────────────────── -->
+<header id="admin-header">
+  <div class="header-inner">
+    <div class="header-left">
+      <span class="site-name">Takhte<span>score</span></span>
+      <span class="admin-badge">Admin</span>
+    </div>
+    <a href="index.html" class="back-link">← Public site</a>
+  </div>
+</header>
+
+<main>
+<div class="container">
+
+  <!-- ── GitHub Connection ─────────────────────────────────────────────── -->
+  <section id="section-token">
+    <div class="section-header">
+      <span class="section-label">Step 1</span>
+      <h2>Connect to GitHub</h2>
+    </div>
+    <div class="card">
+      <div class="token-status">
+        <div class="status-dot disconnected" id="status-dot"></div>
+        <span class="status-text" id="status-text">Not connected</span>
+      </div>
+
+      <div class="field">
+        <label for="gh-token">Personal Access Token (fine-grained)</label>
+        <div class="token-row">
+          <div class="token-input-wrap">
+            <input type="password" id="gh-token" placeholder="github_pat_…"
+                   autocomplete="off" spellcheck="false" />
+          </div>
+          <button class="btn btn-primary" id="btn-connect" type="button">Connect</button>
+          <button class="btn btn-danger" id="btn-clear-token" type="button"
+                  style="display:none">Forget token</button>
+        </div>
+        <p class="field-hint">
+          Token is stored only in your browser's <code>sessionStorage</code>
+          — it disappears when you close the tab.
+          <a href="#section-security" style="color:var(--burgundy)">How to create one ↓</a>
+        </p>
+      </div>
+
+      <div class="config-row" style="margin-top:0.75rem">
+        <div class="field" style="margin-bottom:0">
+          <label for="gh-owner">GitHub username / org</label>
+          <input type="text" id="gh-owner" placeholder="your-username"
+                 autocomplete="off" spellcheck="false" />
+        </div>
+        <div class="field" style="margin-bottom:0">
+          <label for="gh-repo">Repository name</label>
+          <input type="text" id="gh-repo" placeholder="takhtescore"
+                 autocomplete="off" spellcheck="false" />
+        </div>
+      </div>
+      <p class="field-hint" style="margin-top:0.4rem">
+        Owner + repo are saved in <code>localStorage</code> (not sensitive — no token).
+      </p>
+    </div>
+  </section>
+
+  <!-- ── Add Match Form ────────────────────────────────────────────────── -->
+  <section id="section-form">
+    <div class="section-header">
+      <span class="section-label">Step 2</span>
+      <h2>Record a Match</h2>
+    </div>
+    <div class="card">
+
+      <div class="field-row">
+        <div class="field">
+          <label for="f-player1">Player 1</label>
+          <input type="text" id="f-player1" placeholder="Arash"
+                 autocomplete="off" />
+        </div>
+        <div class="field">
+          <label for="f-player2">Player 2</label>
+          <input type="text" id="f-player2" placeholder="Leila"
+                 autocomplete="off" />
+        </div>
+      </div>
+
+      <div class="field">
+        <label>Score</label>
+        <div class="score-row">
+          <input type="number" id="f-score1" min="0" max="99" value="7"
+                 style="width:80px" aria-label="Player 1 score" />
+          <span class="score-vs">vs</span>
+          <input type="number" id="f-score2" min="0" max="99" value="5"
+                 style="width:80px" aria-label="Player 2 score" />
+        </div>
+      </div>
+
+      <div class="field-row">
+        <div class="field">
+          <label for="f-winner">Winner</label>
+          <select id="f-winner">
+            <option value="">— select after filling names —</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="f-date">Date</label>
+          <input type="date" id="f-date" />
+        </div>
+      </div>
+
+      <div class="field">
+        <label for="f-notes">Notes <span style="opacity:0.5">(optional)</span></label>
+        <input type="text" id="f-notes"
+               placeholder="e.g. Tiebreaker — great cube decisions"
+               autocomplete="off" />
+      </div>
+
+      <!-- Live hash preview -->
+      <div id="hash-preview">
+        <div class="hash-preview-label">SHA-256 hash (auto-computed)</div>
+        <div class="hash-preview-value" id="hash-preview-value">—</div>
+        <div class="hash-canonical" id="hash-canonical-str"></div>
+      </div>
+
+      <div id="form-alert" class="alert"></div>
+
+      <div class="submit-area">
+        <button class="btn btn-primary" id="btn-submit" type="button" disabled>
+          Commit to GitHub
+        </button>
+        <button class="btn btn-ghost" id="btn-preview-hash" type="button">
+          Preview hash
+        </button>
+        <button class="btn btn-ghost" id="btn-reset-form" type="button">
+          Reset
+        </button>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ── Recent Matches ────────────────────────────────────────────────── -->
+  <section id="section-recent">
+    <div class="section-header">
+      <span class="section-label">Current data</span>
+      <h2>Recent Matches</h2>
+    </div>
+    <div class="card">
+      <div id="recent-matches">
+        <p style="font-size:0.85rem;color:var(--walnut-lt);font-style:italic">
+          Connect to GitHub to load current matches.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Security Guide ────────────────────────────────────────────────── -->
+  <section id="section-security">
+    <div class="section-header">
+      <span class="section-label">Safety guide</span>
+      <h2>Security & Privacy</h2>
+    </div>
+    <div class="card">
+
+      <h3 style="font-family:var(--font-display);color:var(--walnut);margin-bottom:0.75rem;font-size:1.05rem">
+        Creating a fine-grained Personal Access Token
+      </h3>
+      <ol style="margin-left:1.25rem;display:flex;flex-direction:column;gap:0.45rem;font-size:0.88rem;color:var(--walnut-md)">
+        <li>Go to <strong>GitHub → Settings → Developer settings → Personal access tokens → Fine-grained tokens</strong></li>
+        <li>Click <strong>Generate new token</strong></li>
+        <li>Set an expiry — <strong>7 or 30 days</strong> is recommended; never "no expiry"</li>
+        <li>Under <strong>Repository access</strong>, select <em>Only select repositories</em> → choose your <code>takhtescore</code> repo only</li>
+        <li>Under <strong>Permissions → Repository permissions</strong>, set <strong>Contents → Read and write</strong>. Grant nothing else.</li>
+        <li>Click <strong>Generate token</strong> and copy it immediately</li>
+      </ol>
+
+      <hr style="margin:1.25rem 0;border:none;border-top:1px solid var(--rule)" />
+
+      <h3 style="font-family:var(--font-display);color:var(--walnut);margin-bottom:0.75rem;font-size:1.05rem">
+        How this page keeps your token safe
+      </h3>
+      <ul class="security-list">
+        <li><strong>sessionStorage only</strong> — the token lives in <code>sessionStorage</code>, which is wiped automatically when you close the tab or browser window. It never touches <code>localStorage</code>, cookies, or any server.</li>
+        <li><strong>Never sent anywhere except api.github.com</strong> — the token appears only in the <code>Authorization</code> header of direct calls to the GitHub REST API. No analytics, no third-party scripts.</li>
+        <li><strong>Fine-grained scope</strong> — the token you create above can only read/write the contents of one specific repository. Even if it were stolen, it cannot access any other repo, org, or account setting.</li>
+        <li><strong>Short expiry</strong> — a 7-day token that leaks is far less damaging than a permanent one. Set a calendar reminder to rotate it.</li>
+        <li><strong>noindex header</strong> — this page has <code>&lt;meta name="robots" content="noindex, nofollow"&gt;</code> so search engines won't index it or link to it.</li>
+        <li><strong>No token in URLs</strong> — the token is never placed in query strings or hash fragments that could appear in server logs or browser history.</li>
+        <li><strong>"Forget token" button</strong> — clears <code>sessionStorage</code> immediately without needing to close the tab.</li>
+      </ul>
+
+      <hr style="margin:1.25rem 0;border:none;border-top:1px solid var(--rule)" />
+
+      <h3 style="font-family:var(--font-display);color:var(--walnut);margin-bottom:0.75rem;font-size:1.05rem">
+        Additional recommendations
+      </h3>
+      <ul class="security-list">
+        <li><strong>Use admin.html locally</strong> — bookmark it from a local server (<code>npx serve .</code>). You don't need to visit it on the live GitHub Pages URL.</li>
+        <li><strong>Optionally add admin.html to .gitignore</strong> — if you'd rather not publish this page publicly at all, add <code>admin.html</code> to <code>.gitignore</code> and only keep it on your local machine. The site works fine without it.</li>
+        <li><strong>Never share a screenshot</strong> of the page while a token is entered — the password field masks it, but be careful.</li>
+        <li><strong>Revoke immediately</strong> if you suspect exposure — GitHub → Settings → Developer settings → Fine-grained tokens → Revoke.</li>
+      </ul>
+
+    </div>
+  </section>
+
+</div>
+</main>
+
+<!-- ── Footer ──────────────────────────────────────────────────────────── -->
+<footer id="admin-footer">
+  <div class="container">
+    <p class="footer-text">
+      Takhtescore Admin · Token stored in sessionStorage only · Never logged
+    </p>
+  </div>
+</footer>
+
+<script>
+/* ═══════════════════════════════════════════════════════════════════════════
+   admin.js — inline
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* ── Constants ─────────────────────────────────────────────────────────── */
+const DATA_PATH   = "data/matches.json";
+const GH_API      = "https://api.github.com";
+const SESSION_KEY = "ts_admin_token";   // sessionStorage — clears on tab close
+const LS_OWNER    = "ts_gh_owner";      // localStorage — not sensitive
+const LS_REPO     = "ts_gh_repo";
+
+/* ── State ─────────────────────────────────────────────────────────────── */
+let state = {
+  token:    null,
+  owner:    "",
+  repo:     "",
+  matches:  [],   // current matches loaded from GitHub
+  fileSha:  null, // GitHub blob SHA — needed to update the file
+};
+
+/* ── DOM refs ──────────────────────────────────────────────────────────── */
+const $ = id => document.getElementById(id);
+
+/* ── Crypto ────────────────────────────────────────────────────────────── */
+function canonicalize(record) {
+  const obj = Object.keys(record)
+    .filter(k => k !== "hash")
+    .sort()
+    .reduce((acc, k) => { acc[k] = record[k]; return acc; }, {});
+  return JSON.stringify(obj);
+}
+
+async function sha256hex(str) {
+  const buf = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(str));
+  return Array.from(new Uint8Array(buf))
+    .map(b => b.toString(16).padStart(2, "0"))
+    .join("");
+}
+
+/* ── ID generation ─────────────────────────────────────────────────────── */
+function generateId(matches) {
+  const nums = matches
+    .map(m => parseInt((m.id || "").replace(/\D/g, ""), 10))
+    .filter(n => !isNaN(n));
+  const next = nums.length ? Math.max(...nums) + 1 : 1;
+  return "match-" + String(next).padStart(3, "0");
+}
+
+/* ── Escape HTML ───────────────────────────────────────────────────────── */
+function esc(s) {
+  return String(s ?? "")
+    .replace(/&/g,"&amp;").replace(/</g,"&lt;")
+    .replace(/>/g,"&gt;").replace(/"/g,"&quot;");
+}
+
+/* ── GitHub API helpers ────────────────────────────────────────────────── */
+async function ghFetch(path, options = {}) {
+  const url = `${GH_API}/repos/${state.owner}/${state.repo}${path}`;
+  const res = await fetch(url, {
+    ...options,
+    headers: {
+      "Authorization": `Bearer ${state.token}`,
+      "Accept":        "application/vnd.github+json",
+      "X-GitHub-Api-Version": "2022-11-28",
+      ...(options.headers || {}),
+    },
+  });
+  const data = await res.json();
+  if (!res.ok) throw new Error(data.message || `GitHub API error ${res.status}`);
+  return data;
+}
+
+async function loadMatchesFromGitHub() {
+  const data = await ghFetch(`/contents/${DATA_PATH}`);
+  state.fileSha = data.sha;
+  const json = atob(data.content.replace(/\n/g, ""));
+  state.matches = JSON.parse(json);
+  return state.matches;
+}
+
+async function commitMatches(matches, message) {
+  const content = btoa(unescape(encodeURIComponent(
+    JSON.stringify(matches, null, 2) + "\n"
+  )));
+  const body = {
+    message,
+    content,
+    sha: state.fileSha,
+  };
+  const result = await ghFetch(`/contents/${DATA_PATH}`, {
+    method: "PUT",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(body),
+  });
+  // Update sha for next commit in same session
+  state.fileSha = result.content.sha;
+  return result;
+}
+
+/* ── Token management ──────────────────────────────────────────────────── */
+function saveConfig() {
+  localStorage.setItem(LS_OWNER, $("gh-owner").value.trim());
+  localStorage.setItem(LS_REPO,  $("gh-repo").value.trim());
+}
+
+function loadConfig() {
+  $("gh-owner").value = localStorage.getItem(LS_OWNER) || "";
+  $("gh-repo").value  = localStorage.getItem(LS_REPO)  || "";
+}
+
+function getToken() {
+  return sessionStorage.getItem(SESSION_KEY);
+}
+
+function storeToken(t) {
+  sessionStorage.setItem(SESSION_KEY, t);
+}
+
+function clearToken() {
+  sessionStorage.removeItem(SESSION_KEY);
+  state.token = null;
+  $("gh-token").value = "";
+  setStatus("disconnected", "Not connected");
+  $("btn-clear-token").style.display = "none";
+  $("btn-submit").disabled = true;
+  $("recent-matches").innerHTML =
+    `<p style="font-size:0.85rem;color:var(--walnut-lt);font-style:italic">Connect to GitHub to load current matches.</p>`;
+}
+
+/* ── Status indicator ──────────────────────────────────────────────────── */
+function setStatus(type, text) {
+  const dot  = $("status-dot");
+  const label = $("status-text");
+  dot.className = `status-dot ${type}`;
+  label.textContent = text;
+}
+
+/* ── Connect ────────────────────────────────────────────────────────────── */
+async function connect() {
+  const token = $("gh-token").value.trim();
+  const owner = $("gh-owner").value.trim();
+  const repo  = $("gh-repo").value.trim();
+
+  if (!token) { showAlert("form-alert","warning","No token entered","Paste your GitHub PAT above."); return; }
+  if (!owner || !repo) { showAlert("form-alert","warning","Missing repo info","Fill in the GitHub username and repository name."); return; }
+
+  state.token = token;
+  state.owner = owner;
+  state.repo  = repo;
+  saveConfig();
+
+  setStatus("checking", "Connecting…");
+
+  try {
+    const matches = await loadMatchesFromGitHub();
+    storeToken(token);
+    setStatus("connected", `Connected — ${matches.length} match${matches.length !== 1 ? "es" : ""} loaded`);
+    $("btn-clear-token").style.display = "";
+    $("btn-submit").disabled = false;
+    $("gh-token").value = ""; // clear the visible field; token is in sessionStorage
+    renderRecentMatches(matches);
+    updateWinnerDropdown();
+    hideAlert("form-alert");
+  } catch (err) {
+    setStatus("disconnected", "Connection failed");
+    state.token = null;
+    showAlert("form-alert", "error", "Could not connect", err.message);
+  }
+}
+
+/* ── Render recent matches ──────────────────────────────────────────────── */
+function renderRecentMatches(matches) {
+  if (!matches.length) {
+    $("recent-matches").innerHTML =
+      `<p style="font-size:0.85rem;color:var(--walnut-lt);font-style:italic">No matches yet.</p>`;
+    return;
+  }
+  const sorted = [...matches].sort((a,b) => b.date.localeCompare(a.date)).slice(0, 5);
+  $("recent-matches").innerHTML = sorted.map(m => `
+    <div class="recent-match">
+      <div>
+        <div class="recent-match-players">${esc(m.player1)} vs ${esc(m.player2)}</div>
+        <div class="recent-match-meta">${esc(m.date)} · ${esc(m.score1)}–${esc(m.score2)} · ${esc(m.winner)} wins</div>
+      </div>
+      <span style="font-family:var(--font-mono);font-size:0.68rem;color:var(--walnut-lt)">${esc(m.id)}</span>
+    </div>
+  `).join("");
+}
+
+/* ── Winner dropdown ────────────────────────────────────────────────────── */
+function updateWinnerDropdown() {
+  const p1 = $("f-player1").value.trim();
+  const p2 = $("f-player2").value.trim();
+  const sel = $("f-winner");
+  const current = sel.value;
+  sel.innerHTML = "";
+
+  const placeholder = document.createElement("option");
+  placeholder.value = "";
+  placeholder.textContent = p1 && p2 ? "— select winner —" : "— fill in names first —";
+  sel.appendChild(placeholder);
+
+  if (p1) {
+    const o = document.createElement("option");
+    o.value = p1; o.textContent = p1;
+    if (current === p1) o.selected = true;
+    sel.appendChild(o);
+  }
+  if (p2) {
+    const o = document.createElement("option");
+    o.value = p2; o.textContent = p2;
+    if (current === p2) o.selected = true;
+    sel.appendChild(o);
+  }
+}
+
+/* ── Hash preview ───────────────────────────────────────────────────────── */
+async function buildRecord() {
+  const p1     = $("f-player1").value.trim();
+  const p2     = $("f-player2").value.trim();
+  const s1     = parseInt($("f-score1").value, 10);
+  const s2     = parseInt($("f-score2").value, 10);
+  const winner = $("f-winner").value;
+  const date   = $("f-date").value;
+  const notes  = $("f-notes").value.trim();
+
+  if (!p1 || !p2 || !winner || !date || isNaN(s1) || isNaN(s2))
+    return null;
+
+  const id = generateId(state.matches);
+  const record = { id, date, notes, player1: p1, player2: p2,
+                   score1: s1, score2: s2, winner };
+  const canonical = canonicalize(record);
+  const hash = await sha256hex(canonical);
+  return { ...record, hash, _canonical: canonical };
+}
+
+async function showHashPreview() {
+  const rec = await buildRecord();
+  if (!rec) {
+    showAlert("form-alert", "warning", "Incomplete form",
+      "Fill in both player names, scores, winner, and date first.");
+    return;
+  }
+  $("hash-preview").classList.add("show");
+  $("hash-preview-value").textContent = rec.hash;
+  $("hash-canonical-str").textContent = "Canonical: " + rec._canonical;
+  hideAlert("form-alert");
+}
+
+/* ── Submit ─────────────────────────────────────────────────────────────── */
+async function submitMatch() {
+  const btn = $("btn-submit");
+
+  if (!state.token) {
+    showAlert("form-alert","warning","Not connected","Connect to GitHub first.");
+    return;
+  }
+
+  const rec = await buildRecord();
+  if (!rec) {
+    showAlert("form-alert","warning","Incomplete form",
+      "Fill in both player names, scores, winner, and date.");
+    return;
+  }
+
+  // Prevent duplicate IDs
+  if (state.matches.find(m => m.id === rec.id)) {
+    showAlert("form-alert","error","Duplicate ID",`A match with id "${rec.id}" already exists.`);
+    return;
+  }
+
+  btn.disabled = true;
+  btn.innerHTML = `<span class="spinner"></span>Committing…`;
+
+  try {
+    // Strip internal _canonical helper before saving
+    const { _canonical, ...cleanRecord } = rec;
+
+    const updated = [...state.matches, cleanRecord];
+    const msg = `Add ${cleanRecord.id}: ${cleanRecord.player1} vs ${cleanRecord.player2} (${cleanRecord.date})`;
+    await commitMatches(updated, msg);
+
+    state.matches = updated;
+    renderRecentMatches(updated);
+
+    showAlert("form-alert", "success",
+      `✓ Match committed — ${cleanRecord.id}`,
+      `SHA-256: ${cleanRecord.hash}`);
+
+    resetForm();
+    $("hash-preview").classList.remove("show");
+  } catch (err) {
+    showAlert("form-alert", "error", "Commit failed", err.message);
+  } finally {
+    btn.disabled = false;
+    btn.innerHTML = "Commit to GitHub";
+  }
+}
+
+/* ── Alert helpers ──────────────────────────────────────────────────────── */
+function showAlert(id, type, title, detail) {
+  const el = $(id);
+  el.className = `alert show ${type}`;
+  el.innerHTML = `<div class="alert-title">${esc(title)}</div>`
+    + (detail ? `<div class="alert-mono">${esc(detail)}</div>` : "");
+}
+function hideAlert(id) {
+  const el = $(id);
+  el.className = "alert";
+  el.innerHTML = "";
+}
+
+/* ── Reset form ─────────────────────────────────────────────────────────── */
+function resetForm() {
+  ["f-player1","f-player2","f-notes"].forEach(id => $(id).value = "");
+  $("f-score1").value = "7";
+  $("f-score2").value = "5";
+  $("f-date").value   = todayISO();
+  updateWinnerDropdown();
+}
+
+function todayISO() {
+  return new Date().toISOString().slice(0, 10);
+}
+
+/* ── Wire up events ─────────────────────────────────────────────────────── */
+document.addEventListener("DOMContentLoaded", () => {
+  // Set today's date as default
+  $("f-date").value = todayISO();
+
+  // Load saved config (owner/repo — not token)
+  loadConfig();
+
+  // Restore session token silently if tab is still open
+  const saved = getToken();
+  if (saved) {
+    state.token = saved;
+    const owner = localStorage.getItem(LS_OWNER) || "";
+    const repo  = localStorage.getItem(LS_REPO)  || "";
+    state.owner = owner;
+    state.repo  = repo;
+    if (owner && repo) {
+      setStatus("checking", "Restoring session…");
+      loadMatchesFromGitHub()
+        .then(matches => {
+          setStatus("connected", `Connected — ${matches.length} match${matches.length !== 1 ? "es" : ""} loaded`);
+          $("btn-clear-token").style.display = "";
+          $("btn-submit").disabled = false;
+          renderRecentMatches(matches);
+          updateWinnerDropdown();
+        })
+        .catch(() => {
+          clearToken();
+          setStatus("disconnected", "Session expired — please reconnect");
+        });
+    }
+  }
+
+  $("btn-connect").addEventListener("click", connect);
+  $("btn-clear-token").addEventListener("click", clearToken);
+  $("btn-preview-hash").addEventListener("click", showHashPreview);
+  $("btn-submit").addEventListener("click", submitMatch);
+  $("btn-reset-form").addEventListener("click", () => {
+    resetForm();
+    $("hash-preview").classList.remove("show");
+    hideAlert("form-alert");
+  });
+
+  // Update winner dropdown when names change
+  $("f-player1").addEventListener("input", updateWinnerDropdown);
+  $("f-player2").addEventListener("input", updateWinnerDropdown);
+
+  // Live hash update on any field change
+  const liveFields = ["f-player1","f-player2","f-score1","f-score2","f-winner","f-date","f-notes"];
+  liveFields.forEach(id => {
+    $(id).addEventListener("change", async () => {
+      if ($("hash-preview").classList.contains("show")) await showHashPreview();
+    });
+  });
+
+  // Connect on Enter in token field
+  $("gh-token").addEventListener("keydown", e => {
+    if (e.key === "Enter") connect();
+  });
+});
+</script>
+
+</body>
+</html>
