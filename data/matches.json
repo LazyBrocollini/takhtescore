@@ -9,5 +9,16 @@
     "score2": 0,
     "winner": "Moe",
     "hash": "679ca024fe9c85095bcf05100105c536f99f659bc1d6a0beca0d32dd0b7f5283"
+  },
+  {
+    "id": "match-002",
+    "date": "2026-05-24",
+    "notes": "",
+    "player1": "Ve",
+    "player2": "Moe",
+    "score1": 1,
+    "score2": 0,
+    "winner": "Ve",
+    "hash": "9d6b901d22b68d14364b02ef41b21d8191d854e5cb839d078df8843131c9462d"
   }
 ]
