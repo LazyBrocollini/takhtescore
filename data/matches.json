@@ -75,5 +75,16 @@
     "score2": 6,
     "winner": "Veee",
     "hash": "dd3073d582294821fbe794c94f0a2e5f27d8c66d0edf8f6d8361129b5452d442"
+  },
+  {
+    "id": "match-008",
+    "date": "2026-05-24",
+    "notes": "heheh",
+    "player1": "Mooo",
+    "player2": "Veee",
+    "score1": 0,
+    "score2": 10,
+    "winner": "Veee",
+    "hash": "64afff9bdaaceaedb89bb07226599b6dff153099d2adb659b3648dd0c8317f22"
   }
 ]
