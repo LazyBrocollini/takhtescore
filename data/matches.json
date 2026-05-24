@@ -1,35 +1,3 @@
 [
-  {
-    "id": "match-001",
-    "date": "2026-05-24",
-    "notes": "",
-    "player1": "Moe",
-    "player2": "Ve",
-    "score1": 1,
-    "score2": 0,
-    "winner": "Moe",
-    "hash": "679ca024fe9c85095bcf05100105c536f99f659bc1d6a0beca0d32dd0b7f5283"
-  },
-  {
-    "id": "match-002",
-    "date": "2026-05-24",
-    "notes": "",
-    "player1": "Ve",
-    "player2": "Moe",
-    "score1": 1,
-    "score2": 0,
-    "winner": "Ve",
-    "hash": "9d6b901d22b68d14364b02ef41b21d8191d854e5cb839d078df8843131c9462d"
-  },
-  {
-    "id": "match-003",
-    "date": "2026-05-24",
-    "notes": "",
-    "player1": "ve",
-    "player2": "moe",
-    "score1": 7,
-    "score2": 5,
-    "winner": "moe",
-    "hash": "98b061cfc9161f5e8e53a6023c7ba6448aa866533df5dc58445851cd632730dc"
-  }
+
 ]
