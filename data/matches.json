@@ -5,7 +5,7 @@
     "notes": "",
     "player1": "Moe",
     "player2": "Ve",
-    "score1": 0,
+    "score1": 1,
     "score2": 0,
     "winner": "Moe",
     "hash": "2636eb2ef86212342cb0056ff4f456ff7404aa971c5106a76fbcda7464d5ae37"
@@ -17,7 +17,7 @@
     "player1": "Moe",
     "player2": "Ve",
     "score1": 0,
-    "score2": 0,
+    "score2": 1,
     "winner": "Ve",
     "hash": "01d398e5832881459d26b4225cbce83394e2aade91c2a1879ad052f52cd50195"
   }
