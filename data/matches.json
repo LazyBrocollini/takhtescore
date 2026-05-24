@@ -1,3 +1,13 @@
 [
-  
+  {
+    "id": "match-001",
+    "date": "2026-05-24",
+    "notes": "",
+    "player1": "Moe",
+    "player2": "Ve",
+    "score1": 1,
+    "score2": 0,
+    "winner": "Moe",
+    "hash": "679ca024fe9c85095bcf05100105c536f99f659bc1d6a0beca0d32dd0b7f5283"
+  }
 ]
